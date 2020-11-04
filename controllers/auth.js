@@ -28,7 +28,11 @@ router.post('/signup', (req, res)=>{
         }
     }) // created new user if email wasnt found
     .then(([createdUser, wasCreated])=>{
-        
+        if(wasCreated){
+            console.log('just created the following user:', createdUser)
+        }else{
+            console.log('already exist, try again')
+        }
     })
     res.redirect('/auth/login')
 })
