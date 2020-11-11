@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: {
           args: [8,99], 
-          msg: "passwprd must be betweeen 8 and 99 charcters"
+          msg: "password must be betweeen 8 and 99 charcters"
         }
       }
     }
@@ -67,7 +67,13 @@ module.exports = (sequelize, DataTypes) => {
     let hashedPassword = bcrypt.hashSync(pendingUser.password, 10)
     console.log(`${pendingUser.password} became ------> ${hashedPassword}`)
     pendingUser.password = hashedPassword
-
   })
+
+  user.prototype.validPassword = async function(passwordInput) {
+    let match = await bcrypt.compare(passwordInput, this.password)
+    console.log('?????????match', match)
+    return match
+  }
+
   return user;
-};
+}
